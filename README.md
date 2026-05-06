@@ -442,3 +442,9 @@ http://192.168.1.20:3000/api/telebirr/create-order
 ### Payment opens but final status is unclear
 
 Use backend `notify_url` and `queryOrder`. The Flutter SDK callback is helpful for UI, but final payment confirmation should come from the backend.
+
+## Contact Us
+
+Need support with Telebirr integration, websites, mobile apps, or custom
+software? Contact Dream Technologies PLC:
+[dreamtech.et/contact](https://dreamtech.et/contact)

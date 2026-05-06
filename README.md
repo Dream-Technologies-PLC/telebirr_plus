@@ -405,31 +405,6 @@ Use `queryOrder` when:
 - `notify_url` is delayed
 - You need backend-side final confirmation
 
-## npm Publish From GitHub Actions
-
-This repository includes:
-
-```text
-.github/workflows/ci.yml
-.github/workflows/publish.yml
-```
-
-To publish from GitHub:
-
-1. Create the package on npm or login to npm with permission to publish `telebirr_plus`.
-2. In GitHub, add repository secret:
-
-```text
-NPM_TOKEN
-```
-
-3. Create a GitHub release, or run the `Publish to npm` workflow manually.
-4. The workflow runs tests, then runs:
-
-```bash
-npm publish --provenance --access public
-```
-
 ## Troubleshooting
 
 ### `60200098`

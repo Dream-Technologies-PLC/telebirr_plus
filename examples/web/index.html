@@ -357,15 +357,16 @@
     }
 
     function flutterRequest() {
-      return `final request = TelebirrPaymentRequest(
+      return `await Telebirr.initialize(
   appId: '${el.merchantAppId.value}',
   shortCode: '${el.shortCode.value}',
-  receiveCode: '${el.receiveCode.value}',
-  returnApp: '${el.returnApp.value}',
+  returnScheme: '${el.returnApp.value}',
   environment: TelebirrEnvironment.test,
 );
 
-final result = await TelebirrInAppPurchasePlus.startPay(request);`;
+final result = await Telebirr.pay(
+  receiveCode: '${el.receiveCode.value}',
+);`;
     }
 
     el.createOrder.addEventListener('click', createOrder);

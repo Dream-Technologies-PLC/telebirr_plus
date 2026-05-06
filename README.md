@@ -18,7 +18,7 @@ Use this Node package for the backend part. Use the Flutter package for opening 
 3. Backend calls Telebirr Apply Fabric Token.
 4. Backend signs and calls Telebirr Create InApp Order.
 5. Backend returns `receiveCode` to Flutter.
-6. Flutter calls `TelebirrInAppPurchasePlus.startPay(...)` with that `receiveCode`.
+6. Flutter calls `Telebirr.pay(...)` with that `receiveCode`.
 7. Telebirr app opens and customer pays.
 8. Flutter receives SDK callback.
 9. Telebirr calls your backend `notify_url`.
@@ -252,21 +252,20 @@ Install the Flutter app package:
 
 ```yaml
 dependencies:
-  telebirr_inapp_purchase_plus: ^0.0.3
+  telebirr_inapp_purchase_plus: ^1.0.2
 ```
 
 Flutter code:
 
 ```dart
-final request = TelebirrPaymentRequest(
+await Telebirr.initialize(
   appId: 'YOUR_MERCHANT_APP_ID',
   shortCode: 'YOUR_SHORT_CODE',
-  receiveCode: receiveCodeFromBackend,
-  returnApp: 'yourappscheme',
+  returnScheme: 'yourappscheme',
   environment: TelebirrEnvironment.test,
 );
 
-final result = await TelebirrInAppPurchasePlus.startPay(request);
+final result = await Telebirr.pay(receiveCode: receiveCodeFromBackend);
 
 if (result.isSuccess) {
   print('Payment successful');
@@ -325,7 +324,7 @@ The page lets you:
 - Create a Telebirr test order
 - See the returned `merchantOrderId`
 - Copy the `receiveCode`
-- Copy a Flutter `TelebirrPaymentRequest` snippet
+- Copy a Flutter `Telebirr.initialize` and `Telebirr.pay` snippet
 
 There is also a dedicated example env file:
 

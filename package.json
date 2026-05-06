@@ -1,6 +1,6 @@
 {
   "name": "telebirr_plus",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple Node.js backend and test website for Telebirr InApp Purchase, built to pair with the Flutter telebirr_inapp_purchase_plus package.",
   "main": "src/index.js",
   "type": "commonjs",

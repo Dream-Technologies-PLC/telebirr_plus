@@ -18,7 +18,7 @@ test('buildSignString sorts root and biz_content fields and excludes signature f
     biz_content: {
       title: 'Ride',
       appid: 'app-1',
-      merch_code: '772770',
+      merch_code: '100100',
       empty: '',
       sign: 'ignored',
     },
@@ -31,12 +31,12 @@ test('buildSignString sorts root and biz_content fields and excludes signature f
     version: '1.0',
     title: 'Ride',
     appid: 'app-1',
-    merch_code: '772770',
+    merch_code: '100100',
   });
 
   assert.equal(
     buildSignString(payload),
-    'appid=app-1&merch_code=772770&method=payment.preorder&nonce_str=ABC&timestamp=1700000000&title=Ride&version=1.0',
+    'appid=app-1&merch_code=100100&method=payment.preorder&nonce_str=ABC&timestamp=1700000000&title=Ride&version=1.0',
   );
 });
 

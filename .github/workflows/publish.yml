@@ -1,6 +1,8 @@
 name: Publish to npm
 
 on:
+  push:
+    branches: [main]
   release:
     types: [published]
   workflow_dispatch:
@@ -11,6 +13,7 @@ permissions:
 
 jobs:
   publish:
+    if: github.event_name != 'push' || contains(github.event.head_commit.message, '[npm publish]')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -1,0 +1,47 @@
+{
+  "name": "telebirr_plus",
+  "version": "0.1.0",
+  "description": "Simple Node.js backend and test website for Telebirr InApp Purchase, built to pair with the Flutter telebirr_inapp_purchase_plus package.",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test",
+    "start": "node examples/express/server.js",
+    "start:example": "node examples/express/server.js"
+  },
+  "keywords": [
+    "telebirr",
+    "ethiotelecom",
+    "inapp",
+    "payment",
+    "flutter",
+    "backend"
+  ],
+  "author": "Dream Technologies PLC",
+  "license": "MIT",
+  "homepage": "https://github.com/Dream-Technologies-PLC/telebirr_plus#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dream-Technologies-PLC/telebirr_plus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Dream-Technologies-PLC/telebirr_plus/issues"
+  },
+  "files": [
+    "src",
+    "examples",
+    "doc",
+    ".env.example",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "undici": "^6.21.1"
+  }
+}

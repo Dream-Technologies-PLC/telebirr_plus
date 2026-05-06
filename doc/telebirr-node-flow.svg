@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">Telebirr InApp backend flow</title>
+  <desc id="desc">Flutter asks the Node backend to create an order, backend calls Telebirr, Flutter starts payment with receiveCode, and backend receives notify callback.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#00796b"/>
+    </marker>
+    <style>
+      .box { fill: #f7fbfa; stroke: #607d78; stroke-width: 2; rx: 12; }
+      .title { font: 700 22px Arial, sans-serif; fill: #102421; }
+      .text { font: 16px Arial, sans-serif; fill: #263b38; }
+      .small { font: 14px Arial, sans-serif; fill: #3d5551; }
+      .arrow { stroke: #00796b; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect width="960" height="520" fill="#eef8f6"/>
+  <text x="480" y="46" text-anchor="middle" class="title">Telebirr InApp Purchase Flow</text>
+  <rect x="40" y="95" width="200" height="105" class="box"/>
+  <text x="140" y="132" text-anchor="middle" class="title">Flutter App</text>
+  <text x="140" y="162" text-anchor="middle" class="text">amount + title</text>
+  <text x="140" y="184" text-anchor="middle" class="small">No secrets here</text>
+  <rect x="380" y="95" width="200" height="105" class="box"/>
+  <text x="480" y="132" text-anchor="middle" class="title">Node Backend</text>
+  <text x="480" y="162" text-anchor="middle" class="text">signs createOrder</text>
+  <text x="480" y="184" text-anchor="middle" class="small">App Secret + private key</text>
+  <rect x="720" y="95" width="200" height="105" class="box"/>
+  <text x="820" y="132" text-anchor="middle" class="title">Telebirr API</text>
+  <text x="820" y="162" text-anchor="middle" class="text">token + order</text>
+  <text x="820" y="184" text-anchor="middle" class="small">returns receiveCode</text>
+  <rect x="40" y="320" width="200" height="105" class="box"/>
+  <text x="140" y="357" text-anchor="middle" class="title">Telebirr SDK</text>
+  <text x="140" y="387" text-anchor="middle" class="text">startPay</text>
+  <text x="140" y="409" text-anchor="middle" class="small">uses receiveCode</text>
+  <rect x="380" y="320" width="200" height="105" class="box"/>
+  <text x="480" y="357" text-anchor="middle" class="title">Telebirr App</text>
+  <text x="480" y="387" text-anchor="middle" class="text">user pays</text>
+  <text x="480" y="409" text-anchor="middle" class="small">SDK callback to Flutter</text>
+  <rect x="720" y="320" width="200" height="105" class="box"/>
+  <text x="820" y="357" text-anchor="middle" class="title">notify_url</text>
+  <text x="820" y="387" text-anchor="middle" class="text">backend verifies</text>
+  <text x="820" y="409" text-anchor="middle" class="small">queryOrder if needed</text>
+  <path d="M240 147 H376" class="arrow"/>
+  <text x="310" y="132" text-anchor="middle" class="small">POST /create-order</text>
+  <path d="M580 147 H716" class="arrow"/>
+  <text x="650" y="132" text-anchor="middle" class="small">Fabric Token + order</text>
+  <path d="M720 184 C560 260 400 270 240 350" class="arrow"/>
+  <text x="480" y="275" text-anchor="middle" class="small">receiveCode returns to Flutter</text>
+  <path d="M240 372 H376" class="arrow"/>
+  <text x="310" y="357" text-anchor="middle" class="small">opens payment app</text>
+  <path d="M580 372 H716" class="arrow"/>
+  <text x="650" y="357" text-anchor="middle" class="small">notify callback</text>
+</svg>

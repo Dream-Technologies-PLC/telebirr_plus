@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Telebirr InApp Test</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #142421;
+      --muted: #5f7470;
+      --line: #c7d8d4;
+      --soft: #eef8f6;
+      --brand: #007a68;
+      --brand-dark: #00584c;
+      --danger: #b42318;
+      --ok: #087443;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, #f6fbfa 0%, #e8f4f1 100%);
+      min-height: 100vh;
+    }
+
+    main {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 48px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: end;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .badge {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 999px;
+      padding: 10px 14px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 18px 44px rgba(24, 66, 58, 0.08);
+      overflow: hidden;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      padding: 20px;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid #aebfbb;
+      border-radius: 8px;
+      background: #fbfffe;
+      color: var(--ink);
+      padding: 13px 14px;
+      font: inherit;
+      min-height: 48px;
+    }
+
+    textarea {
+      min-height: 118px;
+      resize: vertical;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .span-2 {
+      grid-column: span 2;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-top: 1px solid var(--line);
+      padding: 18px 20px;
+      background: var(--soft);
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      background: var(--brand);
+      color: white;
+      padding: 13px 18px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 48px;
+    }
+
+    button.secondary {
+      background: white;
+      color: var(--brand-dark);
+      border: 1px solid var(--line);
+    }
+
+    button:disabled {
+      cursor: wait;
+      opacity: 0.65;
+    }
+
+    .result {
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 18px;
+    }
+
+    .result strong {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    pre {
+      margin: 0;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: var(--ink);
+      font: 13px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .ok {
+      color: var(--ok);
+    }
+
+    .error {
+      color: var(--danger);
+    }
+
+    @media (max-width: 760px) {
+      header {
+        display: block;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .badge {
+        display: inline-block;
+        margin-top: 14px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .span-2 {
+        grid-column: span 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Telebirr InApp Test</h1>
+        <p>Create a testbed order from the Node backend, then copy the receiveCode into the Flutter app.</p>
+      </div>
+      <div class="badge" id="environment">Loading config...</div>
+    </header>
+
+    <section class="panel">
+      <div class="grid">
+        <label class="span-2">
+          Backend create-order URL
+          <input id="backendUrl" autocomplete="off" value="/api/telebirr/create-order">
+        </label>
+
+        <label>
+          Merchant App ID
+          <input id="merchantAppId" autocomplete="off">
+        </label>
+
+        <label>
+          Short code
+          <input id="shortCode" autocomplete="off">
+        </label>
+
+        <label>
+          Return app scheme
+          <input id="returnApp" autocomplete="off" value="test">
+        </label>
+
+        <label>
+          Amount
+          <input id="amount" inputmode="decimal" autocomplete="off" value="12.00">
+        </label>
+
+        <label class="span-2">
+          Title
+          <input id="title" autocomplete="off" value="Peace Ride test order">
+        </label>
+
+        <label class="span-2">
+          Receive code
+          <textarea id="receiveCode" readonly placeholder="Create order to fill receiveCode"></textarea>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button id="createOrder">Create Order From Node Backend</button>
+        <button class="secondary" id="copyReceiveCode">Copy Receive Code</button>
+        <button class="secondary" id="copyFlutter">Copy Flutter Request</button>
+      </div>
+    </section>
+
+    <section class="result" id="result">
+      <strong>Result</strong>
+      <pre>Ready.</pre>
+    </section>
+  </main>
+
+  <script>
+    const apiOrigin = window.location.protocol === 'file:' ? 'http://localhost:3000' : window.location.origin;
+
+    const state = {
+      merchantOrderId: '',
+      lastResponse: null,
+    };
+
+    const ids = [
+      'backendUrl',
+      'merchantAppId',
+      'shortCode',
+      'returnApp',
+      'amount',
+      'title',
+      'receiveCode',
+      'createOrder',
+      'copyReceiveCode',
+      'copyFlutter',
+      'result',
+      'environment',
+    ];
+
+    const el = Object.fromEntries(ids.map((id) => [id, document.getElementById(id)]));
+
+    function showResult(title, payload, ok = true) {
+      el.result.innerHTML = `<strong class="${ok ? 'ok' : 'error'}">${title}</strong><pre>${escapeHtml(
+        typeof payload === 'string' ? payload : JSON.stringify(payload, null, 2),
+      )}</pre>`;
+    }
+
+    function escapeHtml(value) {
+      return value
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    async function loadConfig() {
+      try {
+        const response = await fetch(`${apiOrigin}/api/demo-config`);
+        const config = await response.json();
+        el.environment.textContent = `Environment: ${config.environment}`;
+        el.backendUrl.value = config.createOrderUrl || `${apiOrigin}/api/telebirr/create-order`;
+        el.merchantAppId.value = config.merchantAppId || '';
+        el.shortCode.value = config.shortCode || '';
+      } catch (error) {
+        el.environment.textContent = 'Node server unavailable';
+        el.backendUrl.value = `${apiOrigin}/api/telebirr/create-order`;
+        showResult(
+          'Could not connect to Node server',
+          `Open http://localhost:3000 or start the server with npm run start:example.\n\n${error.message}`,
+          false,
+        );
+      }
+    }
+
+    async function createOrder() {
+      el.createOrder.disabled = true;
+      showResult('Creating order...', 'Waiting for Telebirr API.');
+
+      try {
+        const response = await fetch(el.backendUrl.value, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: el.title.value,
+            amount: el.amount.value,
+          }),
+        });
+
+        const data = await response.json();
+        state.lastResponse = data;
+        state.merchantOrderId = data.merchantOrderId || '';
+        el.receiveCode.value = data.receiveCode || '';
+
+        showResult(response.ok && data.success ? 'Order created' : 'Create order failed', data, response.ok && data.success);
+      } catch (error) {
+        showResult('Create order failed', error.message, false);
+      } finally {
+        el.createOrder.disabled = false;
+      }
+    }
+
+    async function copyText(value, label) {
+      if (!value) {
+        showResult(label, 'Nothing to copy yet.', false);
+        return;
+      }
+
+      await navigator.clipboard.writeText(value);
+      showResult(label, 'Copied.');
+    }
+
+    function flutterRequest() {
+      return `final request = TelebirrPaymentRequest(
+  appId: '${el.merchantAppId.value}',
+  shortCode: '${el.shortCode.value}',
+  receiveCode: '${el.receiveCode.value}',
+  returnApp: '${el.returnApp.value}',
+  environment: TelebirrEnvironment.test,
+);
+
+final result = await TelebirrInAppPurchasePlus.startPay(request);`;
+    }
+
+    el.createOrder.addEventListener('click', createOrder);
+    el.copyReceiveCode.addEventListener('click', () => copyText(el.receiveCode.value, 'Receive code'));
+    el.copyFlutter.addEventListener('click', () => copyText(flutterRequest(), 'Flutter request'));
+
+    loadConfig();
+  </script>
+</body>
+</html>

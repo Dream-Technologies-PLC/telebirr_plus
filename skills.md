@@ -1,32 +1,31 @@
 # skills.md
 
-Use this file as AI coding instructions when integrating or modifying
-`telebirr_plus`.
+Copy this file into an existing Node.js backend to guide an AI coding assistant
+while adding Telebirr backend support with `telebirr_plus`.
 
-## Package Role
+This file is only for adding Telebirr payments to an existing Node.js backend.
 
-This Node.js package is a secure backend package for Telebirr InApp Purchase.
-It is designed to pair with the Flutter package
-`telebirr_inapp_purchase_plus`.
+## Goal
 
-It owns:
+Add a secure Telebirr InApp backend to the current Node.js system.
 
-- Fabric Token requests
-- RSA signing
-- Create Order requests
-- Query Order requests
-- notify_url endpoint helpers
-- Backend-only Telebirr credentials
+The Node backend must:
 
-Flutter must only receive `receiveCode` and safe order status fields.
+1. Keep Telebirr credentials on the backend.
+2. Create Telebirr InApp orders.
+3. Return `receiveCode` to Flutter.
+4. Receive Telebirr `notify_url` callbacks.
+5. Query Telebirr when final payment confirmation is needed.
 
-## Install Flow
+## Install
 
 ```bash
 npm install telebirr_plus express cors dotenv
 ```
 
-Required `.env` values:
+## Environment Variables
+
+Add to the backend `.env`:
 
 ```env
 TELEBIRR_ENV=test
@@ -39,27 +38,28 @@ TELEBIRR_NOTIFY_URL=https://yourdomain.com/api/telebirr/notify
 TELEBIRR_VERIFY_SSL=true
 ```
 
-## Express Usage
+Store the private key outside public/static folders.
+
+## Express Integration
+
+If the app uses Express, add:
 
 ```js
 require('dotenv').config();
 
-const express = require('express');
-const cors = require('cors');
 const {
   TelebirrInAppClient,
   createTelebirrRouter,
   loadConfigFromEnv,
 } = require('telebirr_plus');
 
-const app = express();
-const client = new TelebirrInAppClient(loadConfigFromEnv());
+const telebirr = new TelebirrInAppClient(loadConfigFromEnv());
 
-app.use(cors());
-app.use(express.json());
-app.use('/api/telebirr', createTelebirrRouter(client));
-
-app.listen(3000);
+app.use('/api/telebirr', createTelebirrRouter(telebirr, {
+  onNotify: async (payload) => {
+    // Update app-specific order/payment records here.
+  },
+}));
 ```
 
 Built-in routes:
@@ -70,12 +70,33 @@ POST /api/telebirr/query-order
 POST /api/telebirr/notify
 ```
 
-## Flutter Pairing
+## Existing System Integration
+
+If the Node app already has orders, checkout, rides, invoices, or payment
+tables:
+
+1. Create the local order first.
+2. Call Telebirr create-order.
+3. Save `merchantOrderId` with the local order.
+4. Return `receiveCode` to Flutter.
+5. On notify callback, update the local order status.
+6. Use query-order when callback is delayed or payment state is unclear.
+
+## Flutter Contract
 
 Flutter calls:
 
 ```text
 POST /api/telebirr/create-order
+```
+
+with:
+
+```json
+{
+  "title": "Example order",
+  "amount": "12.00"
+}
 ```
 
 Backend returns:
@@ -88,65 +109,26 @@ Backend returns:
 }
 ```
 
-Flutter starts payment:
-
-```dart
-await Telebirr.initialize(
-  appId: 'YOUR_MERCHANT_APP_ID',
-  shortCode: 'YOUR_SHORT_CODE',
-  returnScheme: 'yourappscheme',
-  environment: TelebirrEnvironment.test,
-);
-
-final result = await Telebirr.pay(receiveCode: receiveCodeFromBackend);
-```
-
 ## Security Rules
 
-- Never commit `.env` with real credentials.
-- Never commit private keys.
-- Never expose App Secret, private key, or Fabric Token to Flutter.
-- Store private keys outside public/static folders.
+- Do not expose App Secret or private key to Flutter.
+- Do not commit `.env`.
+- Do not commit private keys.
+- Use HTTPS for production `TELEBIRR_NOTIFY_URL`.
 - Use `TELEBIRR_VERIFY_SSL=true` in production.
-- Use HTTPS for `TELEBIRR_NOTIFY_URL` in production.
-- Confirm final payment on the backend using `notify_url` and/or `queryOrder`.
+- Do not trust Flutter callback as final payment confirmation.
+- Confirm final payment through backend notify callback or query-order.
 
-## Coding Rules
+## Local Testing
 
-- Keep signing deterministic and tested.
-- Keep amount formatting to two decimals.
-- Keep response shape stable for Flutter:
-  `success`, `merchantOrderId`, `receiveCode`, `code`, `message`, `raw`.
-- Do not log secrets.
-- Do not swallow Telebirr error codes such as `60200098`.
-
-## Testing Checklist
-
-Before release:
+Run Node:
 
 ```bash
-npm test
-npm pack --dry-run
+npm start
 ```
 
-Scan for secrets:
-
-```bash
-rg "APP_SECRET|PRIVATE_KEY|MIIE|TELEBIRR_APP_SECRET|real_merchant"
-```
-
-## npm Release
-
-Versions come from `package.json`.
-
-```bash
-npm version patch
-git push origin main --tags
-```
-
-Package:
+From Flutter on a real phone, use LAN IP, not `localhost`:
 
 ```text
-telebirr_plus
+http://192.168.x.x:3000/api/telebirr/create-order
 ```
-

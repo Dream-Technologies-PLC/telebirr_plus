@@ -1,9 +1,48 @@
 # skills.md
 
+## Best Package Description
+
+`telebirr_plus` is the Node.js backend package for Telebirr InApp Purchase. Use
+it inside an existing Node or Express backend to securely apply Fabric Token,
+sign requests, create orders, receive notify callbacks, and return
+`receiveCode` to a Flutter app.
+
 Copy this file into an existing Node.js backend to guide an AI coding assistant
 while adding Telebirr backend support with `telebirr_plus`.
 
 This file is only for adding Telebirr payments to an existing Node.js backend.
+
+## AI Must Ask First
+
+Before changing code, ask the developer for these values:
+
+- Target environment: `test` or `production`.
+- Fabric App ID.
+- Merchant App ID.
+- Business Short Code.
+- App Secret storage location.
+- Private key file location.
+- Public HTTPS notify URL for production.
+- Existing order/payment model or collection names.
+- Existing checkout route or controller.
+- Whether the app uses Express or another Node framework.
+
+Also confirm:
+
+- Organization and product contract are approved in the Ethio Telecom developer portal.
+- The private key is stored outside public/static folders.
+- The backend will persist local order/payment status.
+- Flutter will only receive `receiveCode` and safe order fields.
+
+## Developer Actions Before AI Starts
+
+The developer must:
+
+- Add Telebirr credentials to `.env`, not source code.
+- Place the private key in a backend-only path.
+- Decide the local order/payment status names.
+- Decide whether to use `createTelebirrRouter` or call `TelebirrInAppClient` from existing controllers.
+- Provide the Flutter app team with the create-order URL.
 
 ## Goal
 

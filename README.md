@@ -226,7 +226,7 @@ Test your own project with cURL:
 curl -X POST http://localhost:3000/api/telebirr/create-order \
   -H "Content-Type: application/json" \
   -d '{
-    "title": "Peace Ride test order",
+    "title": "Example test order",
     "amount": "12.00"
   }'
 ```
@@ -239,7 +239,7 @@ Successful response:
   "code": "0",
   "message": "Order created.",
   "merchantOrderId": "1778088977616",
-  "receiveCode": "TELEBIRR$BUYGOODS$100100$12.00$02412b73e0654fcf466578ffe5d3153c47a003$120m",
+  "receiveCode": "TELEBIRR$BUYGOODS$YOUR_SHORT_CODE$12.00$024demoPrepayId$120m",
   "raw": {}
 }
 ```

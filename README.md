@@ -257,7 +257,7 @@ Install the Flutter app package:
 
 ```yaml
 dependencies:
-  telebirr_inapp_purchase_plus: ^1.0.2
+  telebirr_inapp_purchase_plus: ^1.0.3
 ```
 
 Flutter code:

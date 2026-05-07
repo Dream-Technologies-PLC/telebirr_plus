@@ -9,6 +9,11 @@ It is designed to work with the Flutter package:
 
 Use this Node package for the backend part. Use the Flutter package for opening the native Telebirr payment SDK.
 
+Using an AI coding assistant to integrate this package into your existing
+backend? Add or reference [skills.md](skills.md) first so the assistant asks for
+the required Telebirr credentials, private key location, notify URL, existing
+order model, and checkout route before changing code.
+
 ## Full Flow
 
 ![Telebirr InApp flow](./doc/telebirr-node-flow.svg)
